@@ -1,0 +1,31 @@
+#!/bin/bash
+
+apt update
+
+apt install build-essential libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake autoconf -y
+
+cd /usr/local/
+
+curl -s https://git-scm.com/download/linux > index.html
+
+grep -oP '"([^"]*\.tar\.gz)"[^>]*' index.html | sed 's/"//g' > url
+
+wget "$(cat url)"
+
+tar xzf git*tar.gz
+
+rm -rf git*tar.gz
+
+mv git*/ git/
+
+cd git
+
+make configure
+
+./configure --prefix=/usr
+
+make all
+
+make install
+
+git --version
