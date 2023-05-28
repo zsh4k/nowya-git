@@ -2,7 +2,7 @@
 
 apt update
 
-apt install build-essential libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake autoconf -y
+apt install build-essential libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake autoconf zlib1g-dev -y
 
 cd /usr/local/
 
