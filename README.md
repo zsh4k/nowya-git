@@ -1,5 +1,5 @@
 # nowya-git
 
 ```
-cd /usr/bin && wget https://raw.githubusercontent.com/zsh4k/nowya-git/main/nowya-git && chmod +x nowya-git && cd && nowya-git
+u=/usr/bin;n=nowya-git;cd $u;curl -O https://raw.githubusercontent.com/zsh4k/$n/main/$n;chmod +x $n;cd;$n
 ```

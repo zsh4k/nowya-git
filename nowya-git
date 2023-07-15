@@ -1,31 +1,54 @@
 #!/bin/bash
 
-apt update
+xt1="Instalacion Git"
+xt2="Descargando Git"
+xt3="Descomprimiendo..."
+xt4="Configurando..."
+xt5="Compilando..."
+xt6="Version instalada:"
+xt7="Dependencias instaladas:"
+xt8="Está instalado"
+xt9="Instalando dependencias:"
 
-apt install build-essential libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake autoconf zlib1g-dev -y
+e(){
+    echo -e "\e[1;${1}m${2}\e[0m"
+}
+check() {
+    for name in "$@"; do
+        dpkg -s "$name" >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            e 96 "$xt7"
+            e 96 "$name $xt8"
+        else
+            e 96 "$xt9"
+            apt install "$name" -y
+        fi
+    done
+}
+
+check "build-essential" "libssl-dev" "libcurl4-gnutls-dev" "libexpat1-dev" "gettext" "cmake" "autoconf" "zlib1g-dev" "curl" -y
 
 cd /usr/local/
 
-curl -s https://git-scm.com/download/linux > index.html
+e 96 "$xt1"
+e 96 "$xt2"
+curl -s https://git-scm.com/download/linux | grep -oP '"([^"]*\.tar\.gz)"[^>]*'| xargs curl -O -J -L
 
-grep -oP '"([^"]*\.tar\.gz)"[^>]*' index.html | sed 's/"//g' > url
-
-wget "$(cat url)"
-
+e 96 "$xt3"
 tar xzf git*tar.gz
-
 rm -rf git*tar.gz
 
 mv git*/ git/
-
 cd git
 
+e 96 "$xt4"
 make configure
-
 ./configure --prefix=/usr
 
+e 96 "$xt5"
 make all
-
 make install
+cd ~/
 
+e 96 "$xt6"
 git --version
